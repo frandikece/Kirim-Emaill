@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulir Kontak Pink</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Font: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffe4e6; /* Light pink background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+            overflow: hidden; /* Mencegah scrollbar karena elemen hati yang melayang */
+            position: relative; /* Penting untuk penempatan hati absolut */
+        }
+        /* Custom modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #ffffff;
+            margin: auto;
+            padding: 2.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(255, 192, 203, 0.4), 0 4px 6px -2px rgba(255, 192, 203, 0.2); /* Pink shadow */
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            position: relative;
+        }
+        .close-button {
+            color: #aaa;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: #c084fc; /* Deeper pink/purple on hover */
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* --- Gaya dan Animasi Hati Berterbangan --- */
+        #heart-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Agar tidak menghalangi interaksi formulir */
+            overflow: hidden;
+            z-index: 0; /* Pastikan hati di belakang formulir */
+        }
+
+        .heart {
+            position: absolute;
+            background-color: #ffb6c1; /* Pink muda untuk hati */
+            transform: rotate(-45deg); /* Memutar untuk bentuk hati */
+            animation: floatHeart 10s ease-in infinite; /* Animasi melayang */
+            opacity: 0; /* Mulai tersembunyi */
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #ffb6c1; /* Pink muda untuk hati */
+            border-radius: 50%; /* Membuat lingkaran */
+        }
+
+        .heart::before {
+            top: -50%; /* Posisi untuk membentuk bagian atas hati */
+            left: 0;
+        }
+
+        .heart::after {
+            top: 0;
+            left: 50%; /* Posisi untuk membentuk bagian atas hati */
+        }
+
+        /* Keyframe untuk animasi hati melayang */
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(100vh) scale(0) rotate(-45deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8; /* Muncul perlahan */
+                transform: translateY(90vh) scale(0.5) rotate(-45deg);
+            }
+            80% {
+                opacity: 0.8; /* Tetap terlihat */
+            }
+            100% {
+                transform: translateY(-10vh) scale(1) rotate(-45deg);
+                opacity: 0; /* Menghilang di akhir */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Container untuk elemen hati yang berterbangan -->
+    <div id="heart-container"></div>
+
+    <!-- Modal untuk pesan -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <p id="modalMessage" class="text-lg font-medium text-gray-800"></p>
+            <button onclick="closeModal()" class="mt-6 px-6 py-2 bg-pink-500 text-white rounded-md hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-offset-2 transition duration-150 ease-in-out">Tutup</button>
+        </div>
+    </div>
+
+    <!-- Formulir kontak utama -->
+    <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-lg mx-auto border border-pink-200" style="position: relative; z-index: 1;">
+        <h2 class="text-3xl font-extrabold text-pink-700 mb-8 text-center">Hubungi Kami ❤️</h2>
+
+        <!-- Formspree Integration with provided ID -->
+        <form id="contactForm" class="space-y-6" action="https://formspree.io/f/xwpqaqkn" method="POST">
+            <div>
+                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
+                <input type="text" id="name" name="name" placeholder="Masukkan nama Anda"
+                       class="mt-1 block w-full px-4 py-2 border border-pink-300 rounded-lg shadow-sm focus:ring-pink-400 focus:border-pink-400 sm:text-base transition duration-150 ease-in-out"
+                       aria-label="Nama Lengkap">
+                <p id="nameError" class="text-red-600 text-sm mt-1 hidden">Nama tidak boleh kosong.</p>
+            </div>
+
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <input type="email" id="email" name="_replyto" placeholder="Masukkan email Anda"
+                       class="mt-1 block w-full px-4 py-2 border border-pink-300 rounded-lg shadow-sm focus:ring-pink-400 focus:border-pink-400 sm:text-base transition duration-150 ease-in-out"
+                       aria-label="Email">
+                <p id="emailError" class="text-red-600 text-sm mt-1 hidden">Email tidak boleh kosong.</p>
+            </div>
+
+            <div>
+                <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Pesan</label>
+                <textarea id="message" name="message" rows="5" placeholder="Tulis pesan Anda di sini..."
+                          class="mt-1 block w-full px-4 py-2 border border-pink-300 rounded-lg shadow-sm focus:ring-pink-400 focus:border-pink-400 sm:text-base resize-y transition duration-150 ease-in-out"
+                          aria-label="Pesan"></textarea>
+                <p id="messageError" class="text-red-600 text-sm mt-1 hidden">Pesan tidak boleh kosong.</p>
+            </div>
+
+            <div>
+                <button type="submit"
+                        class="w-full flex justify-center py-3 px-6 border border-transparent rounded-lg shadow-sm text-lg font-semibold text-white bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-400 transition duration-300 ease-in-out">
+                    Kirim Pesan
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Fungsi untuk menampilkan modal kustom
+        function showModal(message) {
+            document.getElementById('modalMessage').innerText = message;
+            document.getElementById('myModal').style.display = 'flex';
+        }
+
+        // Fungsi untuk menutup modal kustom
+        function closeModal() {
+            document.getElementById('myModal').style.display = 'none';
+        }
+
+        document.getElementById('contactForm').addEventListener('submit', function(event) {
+            // Ambil nilai dari setiap bidang
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const message = document.getElementById('message').value.trim();
+
+            // Ambil elemen pesan error
+            const nameError = document.getElementById('nameError');
+            const emailError = document.getElementById('emailError');
+            const messageError = document.getElementById('messageError');
+
+            let isValid = true; // Bendera validasi
+
+            // Reset pesan error sebelumnya
+            nameError.classList.add('hidden');
+            emailError.classList.add('hidden');
+            messageError.classList.add('hidden');
+
+            // Validasi: periksa apakah nama tidak kosong
+            if (name === '') {
+                nameError.classList.remove('hidden');
+                isValid = false;
+            }
+
+            // Validasi: periksa apakah email tidak kosong
+            if (email === '') {
+                emailError.classList.remove('hidden');
+                isValid = false;
+            } else if (!isValidEmail(email)) { // Validasi format email sederhana
+                emailError.innerText = 'Format email tidak valid.';
+                emailError.classList.remove('hidden');
+                isValid = false;
+            }
+
+            // Validasi: periksa apakah pesan tidak kosong
+            if (message === '') {
+                messageError.classList.remove('hidden');
+                isValid = false;
+            }
+
+            // Jika ada bidang yang tidak valid, cegah pengiriman formulir dan tampilkan modal error
+            if (!isValid) {
+                event.preventDefault(); // Mencegah pengiriman formulir jika validasi gagal
+                showModal('Harap lengkapi semua bidang yang diperlukan dengan benar.');
+            }
+            // Jika semua bidang valid, formulir akan dikirim secara otomatis oleh browser
+            // ke URL Formspree yang ditentukan di atribut 'action' form.
+            // Formspree akan menangani pengiriman email dan pengalihan halaman setelahnya.
+            // Anda tidak perlu lagi 'showModal' untuk sukses di sini,
+            // karena Formspree akan mengarahkan pengguna ke halaman suksesnya sendiri.
+        });
+
+        // Fungsi bantu untuk validasi format email sederhana
+        function isValidEmail(email) {
+            const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(email).toLowerCase());
+        }
+
+        // --- JavaScript untuk Hati Berterbangan ---
+        const heartContainer = document.getElementById('heart-container');
+        const numHearts = 20; // Jumlah hati yang akan dibuat
+
+        for (let i = 0; i < numHearts; i++) {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+
+            // Atur ukuran hati secara acak
+            const size = Math.random() * 20 + 10; // Ukuran antara 10px dan 30px
+            heart.style.width = `${size}px`;
+            heart.style.height = `${size}px`;
+
+            // Atur posisi horizontal awal secara acak
+            heart.style.left = `${Math.random() * 100}%`;
+
+            // Atur delay animasi secara acak agar hati muncul pada waktu yang berbeda
+            heart.style.animationDelay = `${Math.random() * 10}s`;
+            heart.style.animationDuration = `${Math.random() * 8 + 7}s`; // Durasi antara 7s dan 15s
+
+            heartContainer.appendChild(heart);
+        }
+
+        // PENTING: Untuk Formspree, nama input email harus "_replyto" agar email balasan berfungsi.
+        document.getElementById('email').name = '_replyto';
+    </script>
+</body>
+</html>
